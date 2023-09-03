@@ -18,12 +18,13 @@ async def upload_file(file: UploadFile):
         file (UploadFile): The image file uploaded by the user.
 
     Returns:
-        JSONResponse: A JSON response containing the extracted QR code as a base64-encoded image.
+        JSONResponse: A JSON response containing the extracted QR code as a image, the data
+        and a new QR Code.
     """
     # Check if the uploaded file is an image
     if not file.content_type.startswith("image/"):
         return JSONResponse(content={"error": "No image file"}, status_code=400)
-    
+
     try:
         # Read the image data from the uploaded file
         image_bytes = await file.read()
@@ -39,6 +40,10 @@ async def upload_file(file: UploadFile):
 
         # Extract the QR code
         qr_code = extract_qr_code(qr_code_normal)
+
+        # Decode the QR code using pyzbar
+        decoder = cv2.QRCodeDetector()
+        data, _, _ = decoder.detectAndDecode(image)
         
         # Encode the extracted QR code as a JPEG image
         _, buffer = cv2.imencode(".jpg", qr_code)
@@ -47,7 +52,7 @@ async def upload_file(file: UploadFile):
         result = base64.b64encode(buffer).decode("utf-8")
 
         # Return the base64-encoded QR code image in a JSON response
-        return JSONResponse(content={"qr_code": result})
+        return JSONResponse(content={"text": data,"qr_code": result})
 
     except Exception as e:
         # Handle any exceptions and return an error response
