@@ -2,12 +2,16 @@ from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse
 import base64
 
-from utils.image_processing import detect_qr_code, extract_qr_code
-
 import numpy as np
 import cv2
 
-app = FastAPI()
+from utils.image_processing import detect_qr_code, extract_qr_code, gen_qr_code
+
+app = FastAPI(
+    title="QR Code Processor API",
+    description="An API for uploading an image, extracting QR codes, and generating new QR codes.",
+    version="1.0.0",
+)
 
 @app.post("/upload/")
 async def upload_file(file: UploadFile):
@@ -18,8 +22,8 @@ async def upload_file(file: UploadFile):
         file (UploadFile): The image file uploaded by the user.
 
     Returns:
-        JSONResponse: A JSON response containing the extracted QR code as a image, the data
-        and a new QR Code.
+        JSONResponse: A JSON response containing the extracted QR code as an image, the data
+        decoded from the QR code, and a new QR code.
     """
     # Check if the uploaded file is an image
     if not file.content_type.startswith("image/"):
@@ -41,9 +45,12 @@ async def upload_file(file: UploadFile):
         # Extract the QR code
         qr_code = extract_qr_code(qr_code_normal)
 
+        # Generate a "creative" QR code
+        new_qr_code = gen_qr_code(qr_code)
+
         # Decode the QR code using pyzbar
         decoder = cv2.QRCodeDetector()
-        data, _, _ = decoder.detectAndDecode(image)
+        data, _, _ = decoder.detectAndDecode(qr_code)
         
         # Encode the extracted QR code as a JPEG image
         _, buffer = cv2.imencode(".jpg", qr_code)
@@ -51,8 +58,14 @@ async def upload_file(file: UploadFile):
         # Encode the image buffer as base64 and decode it to a UTF-8 string
         result = base64.b64encode(buffer).decode("utf-8")
 
-        # Return the base64-encoded QR code image in a JSON response
-        return JSONResponse(content={"text": data,"qr_code": result})
+        # Encode the new QR code as a JPEG image
+        _, buffer = cv2.imencode(".jpg", new_qr_code)
+
+        # Encode the image buffer as base64 and decode it to a UTF-8 string
+        new_result = base64.b64encode(buffer).decode("utf-8")
+
+        # Return the base64-encoded QR code image along with the decoded data and the new QR code
+        return JSONResponse(content={"text": data, "qr_code": result, "new_qr": new_result})
 
     except Exception as e:
         # Handle any exceptions and return an error response
