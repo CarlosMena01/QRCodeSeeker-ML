@@ -13,7 +13,7 @@ model_detection = YOLO(PATH_DETECTION)
 model_pattern = YOLO(PATH_PATTERN)
 
 
-def detect_qr_code(image, model=model_detection, threshold=0.4):
+def detect_qr_code(image, model=model_detection, threshold=0.3):
     results = model(image)[0]
     for result in results.boxes.data.tolist():
         x1, y1, x2, y2, score, _ = result
@@ -36,7 +36,7 @@ def extract_qr_code(image, model=model_pattern, threshold=0.5):
             dot = (int((x1+x2)/2), int((y1+y2)/2))
             dots.append(dot)
 
-    def get_rotacion_angle(coordenates, epsilon=230*2):
+    def get_rotacion_angle(coordenates):
         p1, p2, p3 = coordenates
         vector1 = np.array(p2) - np.array(p3)
         vector2 = np.array(p1) - np.array(p3)
