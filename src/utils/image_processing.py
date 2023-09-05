@@ -6,11 +6,11 @@ from os.path import dirname as up
 PATH_ROOT = up(up(up(__file__)))
 
 PATH_DETECTION = PATH_ROOT + "/models/best_detection.pt"
-PATH_FINGER= PATH_ROOT  + "/models/best_finger.pt"
+PATH_PATTERN= PATH_ROOT  + "/models/best_pattern.pt"
 
 
 model_detection = YOLO(PATH_DETECTION)
-model_finger = YOLO(PATH_FINGER)
+model_pattern = YOLO(PATH_PATTERN)
 
 def detect_qr_code(image, model = model_detection, threshold = 0.4):
     results = model(image)[0]
@@ -23,7 +23,7 @@ def detect_qr_code(image, model = model_detection, threshold = 0.4):
             print(f"Little score: {score}")
     return None
 
-def extract_qr_code(image, model = model_finger, threshold = 0.5):
+def extract_qr_code(image, model = model_pattern, threshold = 0.5):
     results = model(image)[0]
 
     dots = []
