@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 import base64
 
 import numpy as np
@@ -53,14 +53,14 @@ async def upload_file(file: UploadFile):
         decoder = cv2.QRCodeDetector()
         data, _, _ = decoder.detectAndDecode(output_qr)
 
-        # Encode the extracted QR code as a JPEG image
-        _, buffer = cv2.imencode(".jpg", output_qr)
+        # Create the header
+        result = {"text": data}
 
-        # Encode the image buffer as base64 and decode it to a UTF-8 string
-        result = base64.b64encode(buffer).decode("utf-8")
+        # Save the result for easier response
+        cv2.imwrite("temp_response.jpg", output_qr)
 
         # Return the base64-encoded QR code image along with the decoded data and the new QR code
-        return JSONResponse(content={"text": data, "qr_code": result})
+        return FileResponse('temp_response.jpg', filename='temp_response.jpg', headers=result)
 
     except Exception as e:
         # Handle any exceptions and return an error response
