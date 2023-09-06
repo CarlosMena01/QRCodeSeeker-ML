@@ -95,7 +95,3 @@ def extract_qr_code(image, model=model_pattern, threshold=0.5):
         image, matrix_rot, (heigth, width), flags=cv2.INTER_LINEAR,  borderValue=(255, 255, 255))
 
     return image_rotated
-
-
-def gen_qr_code(image):
-    return image
