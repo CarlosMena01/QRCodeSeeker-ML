@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import JSONResponse, FileResponse
+import uvicorn
 import base64
 
 import numpy as np
@@ -65,3 +66,6 @@ async def upload_file(file: UploadFile):
     except Exception as e:
         # Handle any exceptions and return an error response
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=80, host="0.0.0.0", log_level="info")
