@@ -42,7 +42,11 @@ def extract_qr_code(image, model=model_pattern, threshold=0.5):
         vector2 = np.array(p1) - np.array(p3)
         vector3 = np.array(p1) - np.array(p2)
 
-        def min_dot_product(v1, v2, v3):
+        triangle = (vector1, vector2, vector3)
+
+        def min_dot_product(list_vectors):
+            # Take a list of vectors and return the index of the mins dot product pair
+            v1, v2, v3 = list_vectors
             # Calculate dot products between all pairs of vectors
             dot_product_v1_v2 = np.abs(np.dot(v1, v2))
             dot_product_v1_v3 = np.abs(np.dot(v1, v3))
@@ -50,9 +54,9 @@ def extract_qr_code(image, model=model_pattern, threshold=0.5):
 
             # Create a dictionary to map dot products to their respective vector pairs
             dot_products = {
-                dot_product_v1_v2: (v1, v2),
-                dot_product_v1_v3: (v1, v3),
-                dot_product_v2_v3: (v2, v3)
+                dot_product_v1_v2: (0, 1),
+                dot_product_v1_v3: (0, 2),
+                dot_product_v2_v3: (1, 2)
             }
 
             # Find the pair with the minimum absolute dot product
@@ -61,24 +65,25 @@ def extract_qr_code(image, model=model_pattern, threshold=0.5):
 
             return min_vectors
 
-        minvectors = min_dot_product(vector1, vector2, vector3)
+        minvectors_indexs = min_dot_product(triangle)
 
-        minvectors = np.asarray(minvectors)
-        if np.any(np.all(vector1 == minvectors, axis=1)):
-            if vector3 in minvectors:
+        if 0 in minvectors_indexs:
+            if 2 in minvectors_indexs:
                 vector1 = -vector1
-        elif np.any(np.all(vector2 == minvectors, axis=1)):
-            if vector3 in minvectors:
+        elif 1 in minvectors_indexs:
+            if 2 in minvectors_indexs:
                 vector2 = -vector2
                 vector3 = -vector3
-
-        if np.cross(np.append(minvectors[0], 0), np.append(minvectors[1], 0))[2] > 0:
-            angulo_radianes = np.arctan2(*minvectors[0])
+        # Update the triangle
+        triangle = (vector1, vector2, vector3)
+        if np.cross(np.append(triangle[minvectors_indexs[0]], 0), np.append(triangle[minvectors_indexs[1]], 0))[2] < 0:
+            angulo_radianes = np.arctan2(
+                triangle[minvectors_indexs[0]][1], triangle[minvectors_indexs[0]][0])
         else:
-            angulo_radianes = np.arctan2(*minvectors[1])
+            angulo_radianes = np.arctan2(
+                triangle[minvectors_indexs[1]][1], triangle[minvectors_indexs[1]][0])
 
-        angulo_grados = -90 - np.degrees(angulo_radianes)
-        print(angulo_grados)
+        angulo_grados = - 90 + np.degrees(angulo_radianes)
         return angulo_grados
 
     rotation_angle = get_rotacion_angle(dots)
