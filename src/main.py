@@ -61,7 +61,7 @@ async def upload_file(file: UploadFile):
         cv2.imwrite("temp_response.jpg", output_qr)
 
         # Return the base64-encoded QR code image along with the decoded data and the new QR code
-        return FileResponse('temp_response.jpg', filename='temp_response.jpg', headers=result)
+        return FileResponse('temp_response.jpg', headers=result)
 
     except Exception as e:
         # Handle any exceptions and return an error response
