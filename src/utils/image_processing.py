@@ -95,3 +95,25 @@ def extract_qr_code(image, model=model_pattern, threshold=0.5):
         image, matrix_rot, (heigth, width), flags=cv2.INTER_LINEAR,  borderValue=(255, 255, 255))
 
     return image_rotated
+
+
+def post_processing(image, m=5):
+    """Apply the posprocessing to a image
+
+    Args:
+        image (RGB image): The source image on opencv format
+        m (int): The border size in pixels. Defaults to 5.
+    """
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Binarice the image
+    img_bin = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU)[1]
+    img_bin = cv2.morphologyEx(
+        img_bin, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))
+    # Add white borders
+    output = cv2.copyMakeBorder(
+        img_bin, m, m, m, m, cv2.BORDER_CONSTANT, value=255)
+
+    output = cv2.cvtColor(output, cv2.COLOR_GRAY2BGR)
+
+    return output
