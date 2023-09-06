@@ -1,0 +1,67 @@
+h2{ 
+    font-size: larger;
+}
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+}
+
+header{
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header h1{
+    color: white;
+    font-size: 30px;
+}
+
+main{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+#filesUpload{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+
+#result {
+    height: 80%;
+    margin-top: 30px;
+    display: grid;
+    grid-template-rows: 6% 27% 6% 6% 6% 27%;
+}
+
+h2 {
+    color: #333;
+}
+
+#qrData {
+    color: #007bff;
+}
+
+img {
+    max-width: 100%;
+    margin-top: 10px;
+}
