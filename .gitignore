@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,venv,windows,linux,macos,web
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,venv,windows,linux,macos,web
 
+.vscode/
+
 ### Linux ###
 *~
 
@@ -233,20 +235,6 @@ pyrightconfig.json
 pyvenv.cfg
 pip-selfcheck.json
 
-### Web ###
-*.asp
-*.cer
-*.csr
-*.css
-*.htm
-*.html
-*.js
-*.jsp
-*.php
-*.rss
-*.wasm
-*.wat
-*.xhtml
 
 ### Windows ###
 # Windows thumbnail cache files

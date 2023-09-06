@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Seeker</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>QR Code Processor</h1>
+    </header>
+    <main>
+        <div id="filesUpload">
+            <input type="file" id="imageInput" accept="image/*">
+            <button onclick="uploadImage()">Upload Image</button>
+        </div>
+        <div id="result">
+            <h2>Original QR Code:</h2>
+            <img id="originalQR" src="" alt="Original QR Code">
+            <h2>Extracted QR Code Data:</h2>
+            <p id="qrData"></p>
+            <h2>New QR Code:</h2>
+            <img id="newQR" src="" alt="New QR Code">
+        </div>
+    </main>
+    <footer>
+        <p>By: Carlos Mena</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
