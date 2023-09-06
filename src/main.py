@@ -5,7 +5,7 @@ import base64
 import numpy as np
 import cv2
 
-from utils.image_processing import detect_qr_code, extract_qr_code
+from utils.image_processing import detect_qr_code, extract_qr_code, post_processing
 
 app = FastAPI(
     title="QR Code Processor API",
@@ -46,12 +46,15 @@ async def upload_file(file: UploadFile):
         # Extract the QR code
         qr_code = extract_qr_code(qr_code_normal)
 
+        # Post processing
+        output_qr = post_processing(qr_code)
+
         # Decode the QR code using pyzbar
         decoder = cv2.QRCodeDetector()
-        data, _, _ = decoder.detectAndDecode(qr_code)
+        data, _, _ = decoder.detectAndDecode(output_qr)
 
         # Encode the extracted QR code as a JPEG image
-        _, buffer = cv2.imencode(".jpg", qr_code)
+        _, buffer = cv2.imencode(".jpg", output_qr)
 
         # Encode the image buffer as base64 and decode it to a UTF-8 string
         result = base64.b64encode(buffer).decode("utf-8")
