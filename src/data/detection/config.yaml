@@ -1,0 +1,6 @@
+path: ../src/data/detection  # dataset root dir
+train: images/train  # train images (relative to 'path') 4 images
+val: images/val  # val images (relative to 'path') 4 images
+
+names:
+  0: Finder pattern
