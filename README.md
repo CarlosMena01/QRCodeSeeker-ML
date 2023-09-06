@@ -1,6 +1,6 @@
 # QR Code Seeker
 
-![project diagram](assets/architecture.png "Architecture")
+<img src="assets/architecture.png" width="700"/> <img src="assets/api_use.gif" width="200"/> 
 This project leverages machine learning technology to robustly detect, precisely crop, and accurately align QR codes within a wide range of images. To accomplish this, we employ the cutting-edge YOLOv8 model, fine-tuned through a customized training process, in conjunction with a Pix2Pix architecture.
 
 ## Table of Contents
@@ -58,6 +58,8 @@ I made efforts to rectify this imbalance through data augmentation techniques, b
 ## The API
 
 This project features an accessible API built with FastAPI and deployed on Oracle Cloud Infrastructure (OCI). You can conveniently access the API by following this link: http://139.177.102.204/. Additionally, I've designed a user-friendly webpage for streamlined testing and interaction with the API, although it's still a work in progress. To access the interface, please refer to the FastAPI documentation for this project, available at http://139.177.102.204/docs. You can also use the following animation as a guide.
+
+![API example](assets/api_use.gif "API docs")
 
 ## Local pipeline
 
