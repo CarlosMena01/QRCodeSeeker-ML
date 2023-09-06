@@ -1,6 +1,6 @@
 # QR Code Seeker
 
-![project diagram](assets\architecture.png "Architecture")
+![project diagram](assets/architecture.png "Architecture")
 This project leverages machine learning technology to robustly detect, precisely crop, and accurately align QR codes within a wide range of images. To accomplish this, we employ the cutting-edge YOLOv8 model, fine-tuned through a customized training process, in conjunction with a Pix2Pix architecture.
 
 ## Table of Contents
@@ -53,7 +53,7 @@ Initially, my intention was to construct a custom machine learning model from th
 
 I made efforts to rectify this imbalance through data augmentation techniques, but the results remained unsatisfactory. Faced with this challenge, I shifted my approach in the project towards YOLO. For a visual representation of the Pix2Pix architecture during training, please refer to Figure 2.
 
-![Pix2pix animation](assets\pix2pix.gif "Pix2Pix")
+![Pix2pix animation](assets/pix2pix.gif "Pix2Pix")
 
 ## The API
 
